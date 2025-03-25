@@ -1,0 +1,14 @@
+airflow-env
+dags/__pycache__
+dags/data_passing/__pycache__
+dags/hooks/__pycache__
+dags/operators/__pycache__
+dags/resources/__pycache__
+dags/sensors/__pycache__
+dags/templating/__pycache__
+dags/timetable/__pycache__
+data/
+logs/
+plugins/__pycache__
+plugins/timetables/__pycache__
+airflow-service_account-key.json

@@ -1,0 +1,1 @@
+SELECT * FROM pageview_counts WHERE pagename = %(pagename)s  
