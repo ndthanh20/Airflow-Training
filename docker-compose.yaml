@@ -76,6 +76,7 @@ x-airflow-common:
     AIRFLOW__COMMON_IO__XCOM_OBJECTSTORAGE_PATH: gs://my_gcp_conn@airflow-xcom-test/xcom
     AIRFLOW__COMMON_IO__XCOM_OBJECTSTORAGE_THRESHOLD: 1000
     GOOGLE_APPLICATION_CREDENTIALS: /opt/airflow/gcp_credentials.json
+    PYTHONDONTWRITEBYTECODE: 1
   volumes:
     - ${AIRFLOW_PROJ_DIR:-.}/dags:/opt/airflow/dags
     - ${AIRFLOW_PROJ_DIR:-.}/logs:/opt/airflow/logs
