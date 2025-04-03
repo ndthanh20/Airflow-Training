@@ -39,16 +39,17 @@ def _extract_gcs_path_from_pubsub(**context):
 
 
 listen_for_new_file = PubSubPullSensor(
+    task_id="listen_for_new_file",
     project_id=os.environ["GCP_PROJECT"],
-    subsciprtion=os.environ["PUBSUB_SUBSCRIPTION"],
-    ack_mode="AUTO",
-    process_messages="return_immediately",
-    max_message=1,
+    subscription=os.environ["PUBSUB_SUBSCRIPTION"],
+    ack_messages="AUTO",
+    return_immediately="true",
+    max_messages=1,
     dag=dag,
 )
 
 
-fetch_ratings = PythonOperator(
+get_gcs_path = PythonOperator(
     task_id="get_gcs_path",
     python_callable=_extract_gcs_path_from_pubsub,
     dag=dag
@@ -62,7 +63,6 @@ import_in_bigquery = GCSToBigQueryOperator(
     source_format="CSV",
     create_disposition="CREATE_IF_NEEDED",
     write_disposition="WRITE_TRUNCATE",
-    bigquery_conn_id="gcp",
     skip_leading_rows=1,
     schema_fields=[
         {"name": "userId", "type": "INTEGER"},
@@ -98,7 +98,6 @@ query_top_ratings = BigQueryExecuteQueryOperator(
     ),
     write_disposition="WRITE_TRUNCATE",
     create_disposition="CREATE_IF_NEEDED",
-    bigquery_conn_id="gcp",
     dag=dag,
 )
 
@@ -115,7 +114,6 @@ extract_top_ratings = BigQueryToGCSOperator(
         "gs://" + os.environ["RESULT_BUCKET"] + "/{{ ds_nodash }}.csv"
     ],
     export_format="CSV",
-    bigquery_conn_id="gcp",
     dag=dag,
 )
 
@@ -128,8 +126,7 @@ delete_result_table = BigQueryDeleteTableOperator(
         + "."
         + "rating_results_{{ ds_nodash }}"
     ),
-    bigquery_conn_id="gcp",
     dag=dag,
 )
 
-fetch_ratings >> import_in_bigquery >> query_top_ratings >> extract_top_ratings >> delete_result_table
+listen_for_new_file >> get_gcs_path >> import_in_bigquery >> query_top_ratings >> extract_top_ratings >> delete_result_table
