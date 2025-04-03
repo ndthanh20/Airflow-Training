@@ -15,3 +15,10 @@ steps:
 
 options:
   defaultLogsBucketBehavior: 'REGIONAL_USER_OWNED_BUCKET'
+
+substitutions:
+  _PUBSUB_SUBSCRIPTION: "pubsub_sub"
+  _RATINGS_BUCKET: "airflow-data-demo"
+  _GCP_PROJECT: "solid-antler-321809"
+  _BIGQUERY_DATASET: "airflow_movie"
+  _RESULT_BUCKET: "airflow-data-demo"
