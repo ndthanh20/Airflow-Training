@@ -12,3 +12,6 @@ steps:
   - name: python:3.8-slim
     entrypoint: python3.8
     args: ["-m", "pytest", "-s", "dags/"]
+
+options:
+  defaultLogsBucketBehavior: 'REGIONAL_USER_OWNED_BUCKET'
