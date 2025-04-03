@@ -39,7 +39,7 @@ def _extract_gcs_path_from_pubsub(**context):
 
 
 listen_for_new_file = PubSubPullSensor(
-    project_id=os.environ["GCP_RPOJECT"],
+    project_id=os.environ["GCP_PROJECT"],
     subsciprtion=os.environ["PUBSUB_SUBSCRIPTION"],
     ack_mode="AUTO",
     process_messages="return_immediately",
