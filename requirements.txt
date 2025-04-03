@@ -5,6 +5,6 @@ numpy
 apache-airflow-providers-common-sql
 apache-airflow-providers-postgres
 apache-airflow-providers-mysql
-apache-airflow-providers-google
+apache-airflow-providers-google==10.26.0
 apache-airflow-providers-common-io
 apache-airflow[postgres]

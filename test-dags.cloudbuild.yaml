@@ -1,0 +1,23 @@
+steps:
+  # install dependencies
+  - name: python:3.11
+    entrypoint: pip
+    args: ["install", "-r", "requirements.txt", "--user"]
+  
+  - name: python:3.11
+    entrypoint: pip
+    args: ["install", "-r", "requirements-test.txt", "--user"]
+
+  # run in python 3.11 which is latest version in Cloud Composer
+  - name: python:3.11
+    entrypoint: python3.11
+    args: ["-m", "pytest", "-s", "dags/"]
+    env:
+      - PUBSUB_SUBSCRIPTION=pubsub_sub
+      - RATINGS_BUCKET=airflow-data-demo
+      - GCP_PROJECT=solid-antler-321809
+      - BIGQUERY_DATASET=airflow_movie
+      - RESULT_BUCKET=airflow-data-demo
+
+options:
+  defaultLogsBucketBehavior: 'REGIONAL_USER_OWNED_BUCKET'
